@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Page-to-Song Extension Files</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .file-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .file-header {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #ffd700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .file-icon {
+            width: 20px;
+            height: 20px;
+            background: #ffd700;
+            border-radius: 3px;
+        }
+        
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .instructions {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 4px solid #ffd700;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .step {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .step::before {
+            content: counter(step-counter);
+            counter-increment: step-counter;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #ffd700;
+            color: #333;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+        
+        .instructions {
+            counter-reset: step-counter;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Page-to-Song Chrome Extension 🎵</h1>
+        
+        <div class="instructions">
+            <h2>Installation Instructions:</h2>
+            <div class="step">Create a new folder on your computer for the extension</div>
+            <div class="step">Save each file below with its exact filename in that folder</div>
+            <div class="step">Open Chrome and go to chrome://extensions/</div>
+            <div class="step">Enable "Developer mode" in the top right</div>
+            <div class="step">Click "Load unpacked" and select your extension folder</div>
+            <div class="step">The extension will appear in your toolbar - click it on any webpage to create a song!</div>
+        </div>
+
+        <div class="file-section">
+            <div class="file-header">
+                <div class="file-icon"></div>
+                manifest.json
+            </div>
+            <div class="code-block">{
+  "manifest_version": 3,
+  "name": "Page to Song Converter",
+  "version": "1.0",
+  "description": "Convert any webpage into a catchy song!",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["content.js"]
+  }],
+  "web_accessible_resources": [{
+    "resources": ["*"],
+    "matches": ["<all_urls>"]
+  }]
+}</div>
+        </div>
+
+        <div class="file-section">
+            <div class="file-header">
+                <div class="file-icon"></div>
+                popup.html
+            </div>
+            <div class="code-block"><!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            width: 350px;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            margin: 0;
+        }
+        
+        .container {
+            text-align: center;
+        }
+        
+        h1 {
+            margin: 0 0 20px 0;
+            font-size: 1.5em;
+        }
+        
+        button {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #333;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        #status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            min-height: 20px;
+        }
+        
+        .song-output {
+            text-align: left;
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .control-btn {
+            padding: 8px 16px;
+            font-size: 14px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Page to Song</h1>
+        <button id="generateSong">Create Song from This Page!</button>
+        <div id="status">Click the button to generate a song from this webpage!</div>
+        <div id="songOutput" class="song-output" style="display:none;"></div>
+        <div id="controls" class="controls" style="display:none;">
+            <button id="playBtn" class="control-btn">▶️ Play</button>
+            <button id="stopBtn" class="control-btn">⏹️ Stop</button>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html></div>
+        </div>
+
+        <div class="file-section">
+            <div class="file-header">
+                <div class="file-icon"></div>
+                popup.js
+            </div>
+            <div class="code-block">let audioContext;
+let isPlaying = false;
+let currentSong = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    const generateBtn = document.getElementById('generateSong');
+    const playBtn = document.getElementById('playBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const status = document.getElementById('status');
+    const songOutput = document.getElementById('songOutput');
+    const controls = document.getElementById('controls');
+
+    generateBtn.addEventListener('click', async function() {
+        try {
+            status.textContent = "🎵 Analyzing page content...";
+            
+            const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
+            
+            const results = await chrome.scripting.executeScript({
+                target: {tabId: tab.id},
+                function: extractPageContent
+            });
+            
+            const pageContent = results[0].result;
+            
+            if (!pageContent || pageContent.length < 10) {
+                status.textContent = "❌ Not enough content found on this page!";
+                return;
+            }
+            
+            status.textContent = "🎤 Creating your song...";
+            
+            const song = createSongFromContent(pageContent, tab.title);
+            currentSong = song;
+            
+            songOutput.innerHTML = `
+                <h3>🎵 "${song.title}"</h3>
+                <div style="white-space: pre-line; margin-top: 10px; line-height: 1.6;">
+                    ${song.lyrics}
+                </div>
+            `;
+            
+            songOutput.style.display = 'block';
+            controls.style.display = 'flex';
+            status.textContent = "✅ Song created! Click play to hear it!";
+            
+        } catch (error) {
+            status.textContent = "❌ Error creating song: " + error.message;
+        }
+    });
+
+    playBtn.addEventListener('click', function() {
+        if (!isPlaying && currentSong) {
+            playSong(currentSong);
+            playBtn.textContent = "⏸️ Pause";
+            isPlaying = true;
+        } else {
+            stopSong();
+            playBtn.textContent = "▶️ Play";
+            isPlaying = false;
+        }
+    });
+
+    stopBtn.addEventListener('click', function() {
+        stopSong();
+        playBtn.textContent = "▶️ Play";
+        isPlaying = false;
+    });
+});
+
+function extractPageContent() {
+    // Remove script and style elements
+    const scripts = document.querySelectorAll('script, style, nav, footer, aside');
+    scripts.forEach(el => el.remove());
+    
+    // Get main content
+    let content = '';
+    const mainContent = document.querySelector('main, article, .content, .main, #content, #main');
+    
+    if (mainContent) {
+        content = mainContent.innerText;
+    } else {
+        content = document.body.innerText;
+    }
+    
+    // Clean up the text
+    content = content.replace(/\s+/g, ' ').trim();
+    
+    // Get first 500 characters for song creation
+    return content.substring(0, 500);
+}
+
+function createSongFromContent(content, pageTitle, selectedStyle = 'pop') {
+    const words = content.toLowerCase().split(' ').filter(word => 
+        word.length > 3 && 
+        !['this', 'that', 'with', 'have', 'will', 'been', 'from', 'they', 'were', 'said', 'each', 'more', 'some', 'time', 'very', 'when', 'come', 'here', 'just', 'like', 'over', 'also', 'back', 'after', 'first', 'well', 'year'].includes(word)
+    );
+    
+    const keyWords = [...new Set(words)].slice(0, 10);
+    const songTitle = generateTitle(pageTitle, keyWords, selectedStyle);
+    
+    return generateSongByStyle(keyWords, songTitle, selectedStyle);
+}
+
+function generateTitle(pageTitle, keyWords, style) {
+    const mainWord = keyWords[0] || 'Wonder';
+    const styleMap = {
+        'pop': `${mainWord} (Pop Anthem)`,
+        'rap': `${mainWord} Flow`,
+        'country': `${mainWord} Road`,
+        'rock': `${mainWord} Thunder`,
+        'ballad': `${mainWord} Dreams`
+    };
+    return styleMap[style] || `The ${pageTitle} Song`;
+}
+
+function generateSongByStyle(keyWords, title, style) {
+    const songStructures = {
+        'pop': generatePopSong,
+        'rap': generateRapSong,
+        'country': generateCountrySong,
+        'rock': generateRockSong,
+        'ballad': generateBalladSong
+    };
+    
+    return songStructures[style](keyWords, title);
+}
+
+function generatePopSong(keyWords, title) {
+    const rhymeMap = createRhymeMap();
+    
+    const verse1 = createRhymingVerse([
+        `Dancing through the ${keyWords[0] || 'digital'} lights tonight`,
+        `Every ${keyWords[1] || 'moment'} feels so bright`,
+        `We're living in a ${keyWords[2] || 'world'} so new`,
+        `Everything we need is me and you`
+    ]);
+    
+    const chorus = createRhymingVerse([
+        `Turn it up, turn it loud, we're singing proud`,
+        `${keyWords[0] || 'Magic'} in the air, floating like a cloud`,
+        `This is our time, this is our song`,
+        `Together we'll keep dancing all night long`
+    ]);
+    
+    const verse2 = createRhymingVerse([
+        `Through the ${keyWords[3] || 'pages'} we explore`,
+        `Finding ${keyWords[4] || 'treasures'} and so much more`,
+        `Every click and scroll reveals the way`,
+        `To brighter dreams and a better day`
+    ]);
+    
+    return {
+        title: title,
+        lyrics: `${verse1}\n\n${chorus}\n\n${verse2}\n\n${chorus}`,
+        melody: generateMelody(keyWords, 'pop')
+    };
+}
+
+function generateRapSong(keyWords, title) {
+    const verse1 = [
+        `Yo, check it out, we're on the ${keyWords[0] || 'digital'} scene`,
+        `Scrolling through the ${keyWords[1] || 'content'}, living the dream`,
+        `Every word we read, every line we see`,
+        `Turning information into harmony`
+    ].join('\n');
+    
+    const chorus = [
+        `We're surfing the web with style and grace`,
+        `${keyWords[2] || 'Knowledge'} dropping beats in cyberspace`,
+        `From ${keyWords[3] || 'data'} to rhythm, we make it flow`,
+        `This webpage anthem, stealing the show`
+    ].join('\n');
+    
+    const verse2 = [
+        `Breaking down the ${keyWords[4] || 'barriers'}, line by line`,
+        `Every ${keyWords[5] || 'detail'} here is looking fine`,
+        `We translate the text into musical gold`,
+        `Stories worth a million times being told`
+    ].join('\n');
+    
+    return {
+        title: title,
+        lyrics: `${verse1}\n\n${chorus}\n\n${verse2}\n\n${chorus}`,
+        melody: generateMelody(keyWords, 'rap')
+    };
+}
+
+function generateCountrySong(keyWords, title) {
+    const verse1 = [
+        `Well I was scrolling down this old webpage tonight`,
+        `Reading 'bout ${keyWords[0] || 'stories'} in the pale moonlight`,
+        `Found some ${keyWords[1] || 'wisdom'} that touched my soul`,
+        `Like finding gold in a rabbit hole`
+    ].join('\n');
+    
+    const chorus = [
+        `This here's a song about ${keyWords[2] || 'simple'} things`,
+        `The joy that reading and learning brings`,
+        `From small town ${keyWords[3] || 'values'} to big city dreams`,
+        `Life ain't always what it seems`
+    ].join('\n');
+    
+    const verse2 = [
+        `My grandpa always said "Son, knowledge is key"`,
+        `Now I'm finding ${keyWords[4] || 'treasures'} for you and me`,
+        `In this digital world, we still need heart`,
+        `That's where every good song has to start`
+    ].join('\n');
+    
+    return {
+        title: title,
+        lyrics: `${verse1}\n\n${chorus}\n\n${verse2}\n\n${chorus}`,
+        melody: generateMelody(keyWords, 'country')
+    };
+}
+
+function generateRockSong(keyWords, title) {
+    const verse1 = [
+        `Breaking through the static, here we go!`,
+        `${keyWords[0] || 'Power'} surging, feel the flow!`,
+        `We're electric, we're alive`,
+        `In this ${keyWords[1] || 'digital'} overdrive!`
+    ].join('\n');
+    
+    const chorus = [
+        `ROCK THE WEB! ROCK THE NIGHT!`,
+        `${keyWords[2] || 'Energy'} blazing, burning bright!`,
+        `We are the champions of the screen`,
+        `Living loud in the machine!`
+    ].join('\n');
+    
+    const verse2 = [
+        `Thunder rolling through the ${keyWords[3] || 'cables'}`,
+        `Smashing through the ${keyWords[4] || 'digital'} tables`,
+        `We won't stop, we won't fade`,
+        `This is the anthem that we made!`
+    ].join('\n');
+    
+    return {
+        title: title,
+        lyrics: `${verse1}\n\n${chorus}\n\n${verse2}\n\n${chorus}`,
+        melody: generateMelody(keyWords, 'rock')
+    };
+}
+
+function generateBalladSong(keyWords, title) {
+    const verse1 = [
+        `In the quiet moments of the night`,
+        `When the ${keyWords[0] || 'world'} seems far from sight`,
+        `I found these words upon my screen`,
+        `Like whispers from a distant dream`
+    ].join('\n');
+    
+    const chorus = [
+        `Every page tells a story of the heart`,
+        `Every word's a work of art`,
+        `In this ${keyWords[1] || 'gentle'} melody we find`,
+        `Peace for body, soul, and mind`
+    ].join('\n');
+    
+    const verse2 = [
+        `Through the ${keyWords[2] || 'chapters'} of our lives`,
+        `Where hope and ${keyWords[3] || 'memory'} survives`,
+        `These simple words become our song`,
+        `Carrying us when we're not strong`
+    ].join('\n');
+    
+    return {
+        title: title,
+        lyrics: `${verse1}\n\n${chorus}\n\n${verse2}\n\n${chorus}`,
+        melody: generateMelody(keyWords, 'ballad')
+    };
+}
+
+function createRhymingVerse(lines) {
+    // Helper function to ensure better rhyming structure
+    return lines.join('\n');
+}
+
+function createRhymeMap() {
+    // Future enhancement for better rhyme matching
+    return {
+        'ight': ['bright', 'light', 'night', 'sight', 'flight'],
+        'ay': ['day', 'way', 'say', 'play', 'stay'],
+        'ow': ['flow', 'show', 'glow', 'know', 'grow']
+    };
+}
+
+function generateMelody(keyWords) {
+    // Generate a simple melody based on word characteristics
+    const notes = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5'];
+    const melody = [];
+    
+    keyWords.forEach((word, index) => {
+        const noteIndex = (word.length + index) % notes.length;
+        melody.push({
+            note: notes[noteIndex],
+            duration: 0.5,
+            time: index * 0.6
+        });
+    });
+    
+    return melody;
+}
+
+function playSong(song) {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    
+    if (audioContext.state === 'suspended') {
+        audioContext.resume();
+    }
+    
+    // Play a simple melody
+    const melody = song.melody;
+    const startTime = audioContext.currentTime;
+    
+    melody.forEach(note => {
+        playNote(note.note, startTime + note.time, note.duration);
+    });
+    
+    // Auto-stop after melody finishes
+    setTimeout(() => {
+        if (isPlaying) {
+            stopSong();
+            document.getElementById('playBtn').textContent = "▶️ Play";
+            isPlaying = false;
+        }
+    }, melody.length * 600 + 1000);
+}
+
+function playNote(frequency, startTime, duration) {
+    const noteFrequencies = {
+        'C4': 261.63, 'D4': 293.66, 'E4': 329.63, 'F4': 349.23,
+        'G4': 392.00, 'A4': 440.00, 'B4': 493.88, 'C5': 523.25
+    };
+    
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.setValueAtTime(noteFrequencies[frequency], startTime);
+    oscillator.type = 'sine';
+    
+    gainNode.gain.setValueAtTime(0.3, startTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+    
+    oscillator.start(startTime);
+    oscillator.stop(startTime + duration);
+}
+
+function stopSong() {
+    if (audioContext) {
+        audioContext.suspend();
+    }
+    isPlaying = false;
+}</div>
+        </div>
+
+        <div class="file-section">
+            <div class="file-header">
+                <div class="file-icon"></div>
+                content.js
+            </div>
+            <div class="code-block">// Content script - runs on every webpage
+// This file helps facilitate communication between the extension and the page
+
+console.log('Page-to-Song extension loaded!');</div>
+        </div>
+
+        <div class="file-section">
+            <div class="file-header">
+                <div class="file-icon"></div>
+                icon.png (Create this file)
+            </div>
+            <div class="code-block">You'll need to create a simple icon.png file (128x128 pixels) for your extension.
+You can:
+1. Create a simple musical note icon using any image editor
+2. Download a free music icon from sites like flaticon.com
+3. Use an emoji-to-image converter to create a 🎵 emoji icon
+
+The icon should be saved as "icon.png" in your extension folder.</div>
+        </div>
+
+        <div class="instructions" style="margin-top: 30px;">
+            <h2>How It Works:</h2>
+            <div class="step">The extension extracts text content from any webpage you visit</div>
+            <div class="step">It identifies key words and phrases from the content</div>
+            <div class="step">Creates catchy song lyrics based on the page content and title</div>
+            <div class="step">Generates a simple melody that you can play</div>
+            <div class="step">Displays everything in a beautiful popup interface</div>
+        </div>
+    </div>
+</body>
+</html>
