@@ -105,62 +105,6 @@ RhymeTime works on most websites including:
 - **Rate Limited**: Prevents abuse and controls costs
 - **Optional History**: Rhyme history is stored locally and can be disabled
 
-## For Developers
-
-### Setting Up the Backend Server
-
-1. **Deploy the Proxy Server**
-   \`\`\`bash
-   cd server/
-   npm install
-   cp .env.example .env
-   # Add your GEMINI_API_KEY to .env
-   npm start
-   \`\`\`
-
-2. **Deploy to Production**
-   - Deploy to Vercel, Railway, Heroku, or any hosting service
-   - Set environment variable `GEMINI_API_KEY` with your Gemini API key
-   - Update `PROXY_SERVER_URL` in `background.js` with your deployed URL
-
-3. **Local Development**
-   - Use `http://localhost:3000` as `PROXY_SERVER_URL`
-   - Run the server locally with `npm run dev`
-
-### File Structure
-\`\`\`
-rhyme-extension/
-├── manifest.json          # Extension configuration
-├── popup.html             # Main popup interface
-├── popup.js               # Popup functionality
-├── popup.css              # Popup styling
-├── settings.html          # Settings page
-├── settings.js            # Settings management
-├── settings.css           # Settings styling
-├── content.js             # Content extraction
-├── background.js          # Background service worker (proxy calls)
-├── audio-generator.js     # Audio generation system
-├── audio-player.js        # Audio playback controls
-├── icons/                 # Extension icons
-└── server/                # Backend proxy server
-    ├── server.js          # Express.js proxy server
-    ├── package.json       # Server dependencies
-    └── .env.example       # Environment variables template
-\`\`\`
-
-### Security Benefits
-- **API Key Protection**: Keys never exposed in client-side code
-- **Rate Limiting**: Prevents abuse and controls costs
-- **CORS Protection**: Proper origin validation
-- **Error Handling**: Graceful fallbacks for API failures
-
-### Performance Tips
-
-- **Shorter content** generates faster and more focused rhymes
-- **Simple pages** (articles, blogs) work better than complex layouts
-- **Stable internet** connection improves response times
-- **Respect rate limits** to ensure consistent service
-
 ## Contributing
 
 We welcome contributions! Areas for improvement:
@@ -172,5 +116,6 @@ We welcome contributions! Areas for improvement:
 - Backend server improvements
 
 ## License
+
 
 This project is open source. Please respect API terms of service for integrated services.
