@@ -1,0 +1,8 @@
+{
+  "note": "Icon files needed for the extension",
+  "required_sizes": [16, 32, 48, 128],
+  "format": "PNG",
+  "description": "Musical note or rhyme-themed icons",
+  "colors": ["#667eea", "#764ba2"],
+  "style": "Modern, friendly, musical theme"
+}
