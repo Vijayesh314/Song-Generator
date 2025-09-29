@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RhymeTime Settings</title>
+  <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">⚙️</span>
+        <h1>Settings</h1>
+      </div>
+      <button id="back-btn" class="back-btn">← Back</button>
+    </header>
+
+    <div class="content">
+      <div class="settings-section">
+        <h3>API Configuration</h3>
+        <div class="setting-group">
+          <label for="gemini-api-key">Gemini API Key:</label>
+          <div class="api-key-input">
+            <input type="password" id="gemini-api-key" placeholder="Enter your Gemini API key">
+            <button id="test-api-key" class="btn-secondary">Test</button>
+          </div>
+          <small class="help-text">
+            Get your free API key at <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a>
+            <br>Free tier: 60 requests/minute
+          </small>
+        </div>
+        
+        <div class="api-status" id="api-status" style="display: none;">
+          <p class="status-message"></p>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Audio Settings</h3>
+        <div class="setting-group">
+          <label for="audio-service">Audio Service:</label>
+          <select id="audio-service">
+            <option value="browser">Browser TTS (Free)</option>
+            <option value="elevenlabs">ElevenLabs (Premium)</option>
+            <option value="google">Google Cloud TTS</option>
+            <option value="azure">Azure Cognitive Services</option>
+          </select>
+        </div>
+
+        <div class="setting-group" id="elevenlabs-settings" style="display: none;">
+          <label for="elevenlabs-api-key">ElevenLabs API Key:</label>
+          <input type="password" id="elevenlabs-api-key" placeholder="Enter ElevenLabs API key">
+        </div>
+
+        <div class="setting-group" id="google-settings" style="display: none;">
+          <label for="google-api-key">Google Cloud API Key:</label>
+          <input type="password" id="google-api-key" placeholder="Enter Google Cloud API key">
+        </div>
+
+        <div class="setting-group" id="azure-settings" style="display: none;">
+          <label for="azure-api-key">Azure API Key:</label>
+          <input type="password" id="azure-api-key" placeholder="Enter Azure API key">
+          <label for="azure-region">Azure Region:</label>
+          <input type="text" id="azure-region" placeholder="e.g., eastus">
+        </div>
+
+        <div class="setting-group">
+          <label for="voice-gender">Preferred Voice Gender:</label>
+          <select id="voice-gender">
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+            <option value="auto">Auto (Style-based)</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label for="auto-play">Auto-play Generated Audio:</label>
+          <input type="checkbox" id="auto-play" class="checkbox">
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Content Extraction</h3>
+        <div class="setting-group">
+          <label for="content-length">Maximum Content Length:</label>
+          <select id="content-length">
+            <option value="1000">Short (1000 chars)</option>
+            <option value="2000" selected>Medium (2000 chars)</option>
+            <option value="3000">Long (3000 chars)</option>
+            <option value="5000">Extra Long (5000 chars)</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label for="extract-images">Include Image Descriptions:</label>
+          <input type="checkbox" id="extract-images" class="checkbox">
+          <small class="help-text">Attempt to describe images found on the page</small>
+        </div>
+
+        <div class="setting-group">
+          <label for="skip-navigation">Skip Navigation Elements:</label>
+          <input type="checkbox" id="skip-navigation" class="checkbox" checked>
+          <small class="help-text">Exclude menus, headers, and footers from content</small>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Rhyme Generation</h3>
+        <div class="setting-group">
+          <label for="creativity-level">Creativity Level:</label>
+          <select id="creativity-level">
+            <option value="conservative">Conservative (More factual)</option>
+            <option value="balanced" selected>Balanced</option>
+            <option value="creative">Creative (More artistic)</option>
+            <option value="wild">Wild (Very creative)</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label for="rhyme-scheme">Preferred Rhyme Scheme:</label>
+          <select id="rhyme-scheme">
+            <option value="auto" selected>Auto (Style-based)</option>
+            <option value="AABB">AABB (Couplets)</option>
+            <option value="ABAB">ABAB (Alternating)</option>
+            <option value="ABCB">ABCB (Ballad)</option>
+            <option value="AABA">AABA (Popular song)</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label for="rhyme-style">Rhyme Style:</label>
+          <select id="rhyme-style">
+            <option value="rap">Rap/Hip-Hop</option>
+            <option value="pop" selected>Pop Song</option>
+            <option value="nursery">Nursery Rhyme</option>
+            <option value="limerick">Limerick</option>
+            <option value="ballad">Ballad</option>
+            <option value="haiku">Haiku</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label for="rhyme-length">Rhyme Length:</label>
+          <select id="rhyme-length">
+            <option value="short">Short (4-6 lines)</option>
+            <option value="medium" selected>Medium (8-12 lines)</option>
+            <option value="long">Long (16-20 lines)</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label for="tone">Tone:</label>
+          <select id="tone">
+            <option value="funny">Funny</option>
+            <option value="educational" selected>Educational</option>
+            <option value="dramatic">Dramatic</option>
+            <option value="upbeat">Upbeat</option>
+            <option value="chill">Chill</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label for="custom-instructions">Custom Instructions:</label>
+          <textarea id="custom-instructions" placeholder="Add any specific instructions (e.g., 'Make it sound like Shakespeare', 'Use simple words for kids', etc.)" rows="3"></textarea>
+        </div>
+
+        <div class="setting-group">
+          <label for="include-title">Include Page Title in Rhyme:</label>
+          <input type="checkbox" id="include-title" class="checkbox" checked>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>User Interface</h3>
+        <div class="setting-group">
+          <label for="theme">Theme:</label>
+          <select id="theme">
+            <option value="default" selected>Default</option>
+            <option value="dark">Dark Mode</option>
+            <option value="colorful">Colorful</option>
+            <option value="minimal">Minimal</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label for="show-word-count">Show Word Count:</label>
+          <input type="checkbox" id="show-word-count" class="checkbox">
+        </div>
+
+        <div class="setting-group">
+          <label for="show-generation-time">Show Generation Time:</label>
+          <input type="checkbox" id="show-generation-time" class="checkbox">
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>History & Storage</h3>
+        <div class="setting-group">
+          <label for="save-history">Save Rhyme History:</label>
+          <input type="checkbox" id="save-history" class="checkbox" checked>
+          <small class="help-text">Keep a history of generated rhymes</small>
+        </div>
+
+        <div class="setting-group">
+          <label for="max-history">Maximum History Items:</label>
+          <select id="max-history">
+            <option value="10">10 items</option>
+            <option value="25" selected>25 items</option>
+            <option value="50">50 items</option>
+            <option value="100">100 items</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <button id="clear-history" class="btn-secondary">Clear History</button>
+          <button id="export-settings" class="btn-secondary">Export Settings</button>
+          <button id="import-settings" class="btn-secondary">Import Settings</button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="save-settings" class="btn-primary">Save Settings</button>
+        <button id="reset-settings" class="btn-secondary">Reset to Defaults</button>
+      </div>
+
+      <div class="status" id="settings-status" style="display: none;">
+        <p>Settings saved successfully!</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="settings.js"></script>
+</body>
+</html>

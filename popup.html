@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RhymeTime</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">🎵</span>
+        <h1>RhymeTime</h1>
+      </div>
+      <p class="tagline">Transform any page into a catchy tune!</p>
+       Added settings button to header 
+      <button id="settings-btn" class="settings-btn" title="Settings">⚙️</button>
+    </header>
+
+    <div class="content">
+      <div class="status" id="status">
+        <p>Ready to transform this page!</p>
+      </div>
+
+       Enhanced controls with quick presets 
+      <div class="controls">
+        <div class="quick-presets">
+          <button class="preset-btn" data-preset="study">📚 Study</button>
+          <button class="preset-btn" data-preset="fun">🎉 Fun</button>
+          <button class="preset-btn" data-preset="kids">👶 Kids</button>
+          <button class="preset-btn" data-preset="chill">😌 Chill</button>
+        </div>
+
+        <div class="control-group">
+          <label for="style-select">Style:</label>
+          <select id="style-select">
+            <option value="rap">Rap</option>
+            <option value="pop" selected>Pop</option>
+            <option value="nursery">Nursery Rhyme</option>
+            <option value="ballad">Ballad</option>
+            <option value="country">Country</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="length-select">Length:</label>
+          <select id="length-select">
+            <option value="short">Short (4-6 lines)</option>
+            <option value="medium" selected>Medium (8-12 lines)</option>
+            <option value="long">Long (16-20 lines)</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="tone-select">Tone:</label>
+          <select id="tone-select">
+            <option value="fun" selected>Fun & Playful</option>
+            <option value="educational">Educational</option>
+            <option value="humorous">Humorous</option>
+            <option value="dramatic">Dramatic</option>
+            <option value="chill">Chill & Relaxed</option>
+          </select>
+        </div>
+
+         Added advanced options toggle 
+        <div class="advanced-toggle">
+          <button id="advanced-toggle" class="toggle-btn">Advanced Options ▼</button>
+        </div>
+
+        <div class="advanced-options" id="advanced-options" style="display: none;">
+          <div class="control-group">
+            <label for="custom-prompt">Custom Instructions:</label>
+            <textarea id="custom-prompt" placeholder="Add specific instructions (e.g., 'Make it sound like Shakespeare')" rows="2"></textarea>
+          </div>
+          
+          <div class="control-group">
+            <label for="voice-preference">Voice Preference:</label>
+            <select id="voice-preference">
+              <option value="auto">Auto</option>
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="transform-btn" class="btn-primary">
+          <span class="btn-icon">✨</span>
+          Transform Page
+        </button>
+      </div>
+
+      <div class="output" id="output" style="display: none;">
+        <div class="output-header">
+          <h3>Your Rhyme</h3>
+          <div class="output-actions">
+            <button id="play-btn" class="btn-secondary">
+              <span class="btn-icon">▶️</span>
+              Play
+            </button>
+            <button id="copy-btn" class="btn-secondary">
+              <span class="btn-icon">📋</span>
+              Copy
+            </button>
+             Added share and save buttons 
+            <button id="share-btn" class="btn-secondary">
+              <span class="btn-icon">📤</span>
+              Share
+            </button>
+            <button id="save-btn" class="btn-secondary">
+              <span class="btn-icon">💾</span>
+              Save
+            </button>
+          </div>
+        </div>
+        <div class="rhyme-text" id="rhyme-text"></div>
+        
+         Added metadata display 
+        <div class="rhyme-metadata" id="rhyme-metadata" style="display: none;">
+          <small class="metadata-text"></small>
+        </div>
+        
+         Audio player container 
+        <div id="audio-player-container"></div>
+      </div>
+
+      <div class="loading" id="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p>Creating your rhyme...</p>
+      </div>
+
+       Added history section 
+      <div class="history-section" id="history-section" style="display: none;">
+        <div class="history-header">
+          <h3>Recent Rhymes</h3>
+          <button id="clear-history-btn" class="btn-text">Clear</button>
+        </div>
+        <div class="history-list" id="history-list"></div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p>Powered by Gemini AI</p>
+    </footer>
+  </div>
+
+   Load scripts in order 
+  <script src="audio-generator.js"></script>
+  <script src="audio-player.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
